@@ -13,12 +13,9 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  networking.hostName = "plys"; # Define your hostname.
+  boot.initrd.luks.devices."luks-3261fc18-e997-4f8d-b2f4-8c276dc9cebe".device = "/dev/disk/by-uuid/3261fc18-e997-4f8d-b2f4-8c276dc9cebe";
+  networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -29,53 +26,33 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "Europe/Copenhagen";
+  time.timeZone = "Europe/Zurich";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_GB.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "da_DK.UTF-8";
-    LC_IDENTIFICATION = "da_DK.UTF-8";
-    LC_MEASUREMENT = "da_DK.UTF-8";
-    LC_MONETARY = "da_DK.UTF-8";
-    LC_NAME = "da_DK.UTF-8";
-    LC_NUMERIC = "da_DK.UTF-8";
-    LC_PAPER = "da_DK.UTF-8";
-    LC_TELEPHONE = "da_DK.UTF-8";
-    LC_TIME = "da_DK.UTF-8";
-  };
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
 
-  hardware.opengl.enable = true;
-  # Optionally, you may need to select the appropriate driver version for your specific GPU.
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  # Enable the GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
-  # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
-  hardware.nvidia.modesetting.enable = true;
-
-
-  services = {
-     xserver.enable = true;
-     pipewire.enable = true;
-     avahi.enable = true;
-     #printing.enable = true;
-     tailscale.enable = true;
-     minecraft-server.enable = false;
-  };
-
+  # Configure keymap in X11
   services.xserver = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
     layout = "us";
-    xkbVariant = "";
-    videoDrivers = [ "nvidia" ];
+    xkbVariant = "colemak";
   };
+
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
+    enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
@@ -87,41 +64,38 @@
     #media-session.enable = true;
   };
 
-  services.avahi = {
-    nssmdns = true;
-    ipv4 = true;
-    ipv6 = true;
-    publish = {
-      enable = true;
-      addresses = true;
-      workstation = true;
-    };
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.rying = {
+    isNormalUser = true;
+    description = "rying";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+      firefox
+      dub
+      dfmt
+    ];
+    shell = pkgs.fish;
   };
-
-  services.minecraft-server = {
-    eula = true;
-    openFirewall = true; 
-    # package = pkgs.papermc;
-  };
-
-
 
   programs.fish.enable = true;
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.lucas = {
-    isNormalUser = true;
-    shell = pkgs.fish;
-    description = "Lucas Rasmussen";
-    extraGroups = [ "networkmanager" "wheel" ];
-  };
+  
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     wget
-     neovim
-     doas
+    helix
+    wget
+    git
+    alacritty
+    zellij
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -132,20 +106,14 @@
   #   enableSSHSupport = true;
   # };
 
-  programs.hyprland = {
-  	enable = true;
-        nvidiaPatches = true;
-        xwayland.enable = true;
-  };
-
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  # services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
-  networking.firewall.allowedUDPPorts = [ 60000 60001 60002 60003 ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
