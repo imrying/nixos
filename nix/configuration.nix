@@ -14,6 +14,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_5;
+
   boot.initrd.luks.devices."luks-3261fc18-e997-4f8d-b2f4-8c276dc9cebe".device = "/dev/disk/by-uuid/3261fc18-e997-4f8d-b2f4-8c276dc9cebe";
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -80,6 +82,9 @@
       dfmt
       wl-clipboard
       discord
+      slack
+      rofi-wayland
+      htop
     ];
     shell = pkgs.fish;
   };
@@ -98,10 +103,18 @@
     git
     alacritty
     zellij
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    pavucontrol
+    bluetuith
+     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
   ];
 
+  services.fprintd.enable = true;
+  
+  programs.hyprland = {
+  	enable = true;
+    xwayland.enable = true;
+  };
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
