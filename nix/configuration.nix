@@ -40,7 +40,7 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -90,6 +90,7 @@
   };
 
   programs.fish.enable = true;
+  # programs.i3status-rust.enable = true;
   
 
   # Allow unfree packages
@@ -98,15 +99,17 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    helix
     wget
     git
+    gh
+    helix
     alacritty
     zellij
     pavucontrol
     bluetuith
-     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    waybar
+    libcamera
+    xdg-desktop-portal-hyprland
   ];
 
   services.fprintd.enable = true;
@@ -126,7 +129,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
