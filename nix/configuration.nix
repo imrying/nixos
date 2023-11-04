@@ -85,6 +85,7 @@
       slack
       rofi-wayland
       htop
+      vscode
     ];
     shell = pkgs.fish;
   };
@@ -108,8 +109,11 @@
     pavucontrol
     bluetuith
     waybar
-    libcamera
-    xdg-desktop-portal-hyprland
+    ddd
+    gdb
+    swaybg
+    lsof
+    unzip
   ];
 
   services.fprintd.enable = true;
