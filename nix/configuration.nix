@@ -51,6 +51,9 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Enable mullvad vpn
+  services.mullvad-vpn.enable = true;
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -93,7 +96,6 @@
   };
 
   programs.fish.enable = true;
-  # programs.i3status-rust.enable = true;
   
 
   # Allow unfree packages
@@ -116,12 +118,16 @@
     pavucontrol
     bluetuith
     waybar
+    xdg-desktop-portal-hyprland
     ddd
     gdb
     swaybg
     lsof
     unzip
     teams-for-linux
+    qbittorrent
+    vlc
+    wireplumber
   ];
 
   services.fprintd.enable = true;
