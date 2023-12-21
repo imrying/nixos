@@ -40,7 +40,7 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -63,6 +63,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
@@ -85,7 +86,6 @@
       dfmt
       wl-clipboard
       discord
-      slack
       rofi-wayland
       htop
       vscode
@@ -123,11 +123,18 @@
     gdb
     swaybg
     lsof
+    fd
+    ripgrep
+    shellcheck
     unzip
     teams-for-linux
     qbittorrent
     vlc
     wireplumber
+    valgrind
+    libsForQt5.kcachegrind
+    tor-browser
+    slack
   ];
 
   services.fprintd.enable = true;
@@ -136,6 +143,14 @@
   	enable = true;
     xwayland.enable = true;
   };
+
+
+  
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs; # replace with emacs-gtk, or a version provided by the community overlay if desired.
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
