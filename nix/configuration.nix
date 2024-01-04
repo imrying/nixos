@@ -51,8 +51,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable mullvad vpn
-  services.mullvad-vpn.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -84,13 +82,9 @@
       firefox
       dub
       dfmt
-      wl-clipboard
       discord
-      rofi-wayland
       htop
       vscode
-      grim
-      slurp
     ];
     shell = pkgs.fish;
   };
@@ -115,13 +109,8 @@
     helix
     alacritty
     zellij
-    pavucontrol
-    bluetuith
-    waybar
-    xdg-desktop-portal-hyprland
     ddd
     gdb
-    swaybg
     lsof
     fd
     ripgrep
@@ -135,21 +124,25 @@
     libsForQt5.kcachegrind
     tor-browser
     slack
+    nodejs
+    wl-clipboard
   ];
-
-  services.fprintd.enable = true;
+  services.fwupd.enable = true;
+  # services.fprintd.enable = true;
   
-  programs.hyprland = {
-  	enable = true;
-    xwayland.enable = true;
-  };
+  # programs.hyprland = {
+  # 	enable = true;
+  #   xwayland.enable = true;
+  # };
 
+  # Enable mullvad vpn
+  # services.mullvad-vpn.enable = true;
 
   
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacs; # replace with emacs-gtk, or a version provided by the community overlay if desired.
-  };
+  # services.emacs = {
+  #   enable = true;
+  #   package = pkgs.emacs; # replace with emacs-gtk, or a version provided by the community overlay if desired.
+  # };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
