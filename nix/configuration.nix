@@ -116,16 +116,14 @@
     shellcheck
     unzip
     teams-for-linux
-    qbittorrent
     vlc
     wireplumber
-    valgrind
-    libsForQt5.kcachegrind
     tor-browser
     nodejs
     telegram-desktop
-    wl-clipboard
-    inputs.helix.packages."${pkgs.system}".helix
+    wl-clipboard # clipboard tool
+    inputs.helix.packages."${pkgs.system}".helix # helix flake
+    nil # nix language server
   ];
   services.fwupd.enable = true;
   # services.fprintd.enable = true;
