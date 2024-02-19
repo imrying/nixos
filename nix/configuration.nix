@@ -43,9 +43,9 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "colemak";
+    variant = "colemak";
   };
 
   # Enable CUPS to print documents.
@@ -144,7 +144,7 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.avahi = {
-    nssmdns = true;
+    nssmdns4 = true;
     ipv4 = true;
     ipv6 = true;
     publish = {
