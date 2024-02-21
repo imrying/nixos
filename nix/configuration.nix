@@ -124,6 +124,8 @@
     wl-clipboard # clipboard tool
     inputs.helix.packages."${pkgs.system}".helix # helix flake
     nil # nix language server
+    octave
+    qutebrowser-qt5
   ];
   services.fwupd.enable = true;
   # services.fprintd.enable = true;
