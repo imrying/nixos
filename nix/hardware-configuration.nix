@@ -4,6 +4,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let 
+  # camera setup: https://gist.github.com/p-alik/6ed132ffad59de8fcbc4fb10b54d745eno
   ivsc-firmware = with pkgs;
     stdenv.mkDerivation rec {
       pname = "ivsc-firmware";
@@ -31,10 +32,16 @@ in
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "vmd" "nvme" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "vmd" "nvme" "usb_storage" "sd_mod" "i915" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+
+    # https://discourse.nixos.org/t/i915-driver-has-bug-for-iris-xe-graphics/25006/10
+  # resolved: i915 0000:00:02.0: [drm] Selective fetch area calculation failed in pipe A
+  boot.kernelParams = [
+    "i915.enable_psr=0"
+  ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/07d0e422-4633-4f6f-8cfb-57acd03598c2";
@@ -70,6 +77,8 @@ in
   # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  # hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.enableRedistributableFirmware = true;
 }

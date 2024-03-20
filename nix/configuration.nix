@@ -2,9 +2,17 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
+  # nix.settings.system-features = ["gccarch-alderlake" "benchmark" "big-parallel" "kvm" "nixos-test"];
+
+  # nixpkgs.hostPlatform = {
+  #   gcc.arch = "alderlake";
+  #   gcc.tune = "alderlake";
+  #   system = "x86_64-linux";
+  # };
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -14,7 +22,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_7;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.initrd.luks.devices."luks-3261fc18-e997-4f8d-b2f4-8c276dc9cebe".device = "/dev/disk/by-uuid/3261fc18-e997-4f8d-b2f4-8c276dc9cebe";
   networking.hostName = "nixos"; # Define your hostname.
@@ -125,7 +133,12 @@
     inputs.helix.packages."${pkgs.system}".helix # helix flake
     nil # nix language server
     octave
-    qutebrowser-qt5
+    libreoffice
+    vscode-langservers-extracted
+    chromium
+    zathura
+    typst
+    typst-lsp
   ];
   services.fwupd.enable = true;
   # services.fprintd.enable = true;
