@@ -22,7 +22,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_6_5;
+  boot.kernelPackages = pkgs.linuxPackages_6_7;
 
   boot.initrd.luks.devices."luks-3261fc18-e997-4f8d-b2f4-8c276dc9cebe".device = "/dev/disk/by-uuid/3261fc18-e997-4f8d-b2f4-8c276dc9cebe";
   networking.hostName = "nixos"; # Define your hostname.
@@ -98,7 +98,6 @@
   };
 
   programs.fish.enable = true;
-  
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -139,6 +138,8 @@
     zathura
     typst
     typst-lsp
+    marksman
+    tldr
   ];
   services.fwupd.enable = true;
   # services.fprintd.enable = true;
