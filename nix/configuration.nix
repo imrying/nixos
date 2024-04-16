@@ -113,6 +113,7 @@
     wget
     git
     gh
+    killall
     alacritty
     zellij
     ddd
