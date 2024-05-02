@@ -141,6 +141,8 @@
     typst-lsp
     marksman
     tldr
+    protonvpn-cli_2
+    transmission
   ];
   services.fwupd.enable = true;
   # services.fprintd.enable = true;
