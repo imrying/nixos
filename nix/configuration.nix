@@ -85,7 +85,7 @@
   users.users.rying = {
     isNormalUser = true;
     description = "rying";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
       dub
@@ -107,6 +107,8 @@
 
   ];
 
+  documentation.dev.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -114,6 +116,8 @@
     git
     gh
     killall
+    man-pages
+    man-pages-posix
     alacritty
     zellij
     ddd
@@ -143,10 +147,11 @@
     tldr
     protonvpn-cli_2
     transmission
+    bubblewrap # sandbox for tests
   ];
   services.fwupd.enable = true;
   # services.fprintd.enable = true;
-  # virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -155,6 +160,16 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "hoya" ];
+    authentication = pkgs.lib.mkOverride 10 ''
+      #type database DBuser    address       auth-method
+      local all      postgres                trust
+      host  hoya     postgres  127.0.0.1/32  trust
+      host  all      all       ::1/128       trust
+    '';
+  };
 
   # List services that you want to enable:
 
